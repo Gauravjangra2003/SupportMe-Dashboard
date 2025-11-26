@@ -5,7 +5,7 @@ import Link from "next/link"
 const LandingPage = () => {
   return (
     <div >
-      <h1 className="flex gap-2 text-center items-center md:text-7xl font-black tracking-tight text-white relative z-10 leading-tight drop-shadow-[0_0_20px_rgba(170,170,255,0.25)]">
+      <h1 className="flex gap-2 text-center items-center md:text-7xl font-black tracking-tight relative z-10 leading-tight drop-shadow-[0_0_20px_rgba(170,170,255,0.25)]">
         <PersonStandingIcon size={50} className="text-pink-500"/> Support Me
       </h1>
       <span className="block text-[18px] md:text-[22px] font-light tracking-wide mt-3 opacity-70">
@@ -21,7 +21,7 @@ const LandingPage = () => {
         <small>or</small>
         <Button asChild
           variant="outline"
-          className="px-10 py-5 text-lg rounded-full font-semibold border border-white/20 text-white backdrop-blur-sm hover:bg-white/5 hover:border-white/40 transition-all duration-300"
+          className="px-10 py-5 text-lg rounded-full font-semibold border border-white/20 backdrop-blur-sm hover:bg-white/5 hover:border-white/40 transition-all duration-300"
         >
           <Link href="/sign-up">Sign up</Link>
         </Button>
