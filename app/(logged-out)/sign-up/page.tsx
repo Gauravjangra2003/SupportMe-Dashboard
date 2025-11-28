@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectItem } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,6 +14,8 @@ import * as z from "zod"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { PasswordInput } from "@/components/ui/password-input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useRouter } from "next/navigation"
 
 const accountTypeSchema = z.object({
     accountType : z.enum(["personal", "company"]),
@@ -52,6 +54,12 @@ const passwordSchema = z.object({
     }
 })
 
+const acceptTermsSchema = z.object({
+        acceptTerms : z.boolean({
+            required_error: "You must accept the terms and conditions",
+        }).refine((checked) => checked , "You must accept the terms and conditions"),
+})
+
 const baseSchema = z.object({ 
     email : z.string().email(),
     dob : z.date().refine((date) => {
@@ -65,20 +73,26 @@ const baseSchema = z.object({
     } , "You must be at least 18 years old"),
 })
 
-const formSchema = baseSchema.and(accountTypeSchema).and(passwordSchema);
+const formSchema = baseSchema.and(accountTypeSchema).and(passwordSchema).and(acceptTermsSchema);
 
 
 const SignUpPage = () => {
+
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: '',
+            password: '',
+            passwordConfirm: '',
+            companyName: '',
         }
     });
 
-    const handleSubmit = () => {
-        console.log("login validation passed!")
+    const handleSubmit = (data: z.infer<typeof formSchema>) => {
+        console.log("login validation passed!" , data);
+        router.push('/dashboard');
     }
 
     const accountType = form.watch("accountType");
@@ -161,7 +175,7 @@ const SignUpPage = () => {
                                         Employees
                                     </FormLabel>
                                     <FormControl>
-                                        <Input type="number" min={0} placeholder="Employees" {...field} />
+                                        <Input type="number" min={0} placeholder="Employees" {...field}  value={field.value ?? ""} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -169,7 +183,6 @@ const SignUpPage = () => {
                                 />
                             </>
                         }
-
 
                                 <FormField control={form.control} name="dob"
                                 render={({field}) => { 
@@ -236,6 +249,26 @@ const SignUpPage = () => {
                                 )}
                                 />
 
+                                {/* Terms and conditions */ }
+
+                                <FormField control={form.control} name="acceptTerms"
+                                render={({field}) => (
+                                <FormItem>
+                                    <div className="flex gap-2 items-center">
+                                        <FormControl>
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                        </FormControl>
+                                        <FormLabel>
+                                            I accept the terms and conditions
+                                        </FormLabel>
+                                    </div>
+                                    <FormDescription>
+                                        By signing up you agree to our <Link className="text-primary hover:underline" href="/terms" >terms and conditions</Link>
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                                />
 
                         <Button type="submit">
                             Sign up
