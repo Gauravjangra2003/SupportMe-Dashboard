@@ -13,24 +13,14 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
+import { PasswordInput } from "@/components/ui/password-input"
 
-const formSchema = z.object({ 
-    email : z.string().email(),
+const accountTypeSchema = z.object({
     accountType : z.enum(["personal", "company"]),
     companyName : z.string().optional(),
     numberOfEmployees : z.coerce.number().optional(),
-    dob : z.date().refine((date) => {
-        const today = new Date();
-        const eighteenYearsAgo = new Date(
-            today.getFullYear() - 18,
-            today.getDate(),
-            today.getMonth()
-        );
-        return date <= eighteenYearsAgo;
-    } , "You must be at least 18 years old to sign up")
-})
-.superRefine((data , ctx) => {
-    if(data.accountType === "company" && !data.companyName) {
+}).superRefine((data , ctx) =>  {
+     if(data.accountType === "company" && !data.companyName) {
         ctx.addIssue({
             code : z.ZodIssueCode.custom,
             path : ["companyName"],
@@ -45,6 +35,38 @@ const formSchema = z.object({
         })
     }
 })
+
+const passwordSchema = z.object({
+      password : z.string().min(8 , "Password must be at least 8 characters").refine((password) => {
+        // must contain at least one uppercase letter and one special character
+        return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
+    } , "Password must contain at least one uppercase letter and one special letter"),
+    passwordConfirm: z.string(),
+}).superRefine((data , ctx) => {
+    if(data.password !== data.passwordConfirm) {
+        ctx.addIssue({
+            code : z.ZodIssueCode.custom,
+            path : ["passwordConfirm"],
+            message : "Passwords do not match",
+        })
+    }
+})
+
+const baseSchema = z.object({ 
+    email : z.string().email(),
+    dob : z.date().refine((date) => {
+        const today = new Date();
+        const eighteenYearsAgo = new Date(
+            today.getFullYear() - 18,
+            today.getDate(),
+            today.getMonth()
+        );
+        return date <= eighteenYearsAgo;
+    } , "You must be at least 18 years old"),
+})
+
+const formSchema = baseSchema.and(accountTypeSchema).and(passwordSchema);
+
 
 const SignUpPage = () => {
 
@@ -181,6 +203,39 @@ const SignUpPage = () => {
                                 </FormItem>
                                 )}}
                                 />
+
+                                {/* Password */}
+
+                                <FormField control={form.control} name="password"
+                                render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Password
+                                    </FormLabel>
+                                    <FormControl>
+                                        <PasswordInput placeholder="••••••••" type="password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                                />
+
+                                {/* Confirm Password */ }
+
+                                <FormField control={form.control} name="passwordConfirm"
+                                render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>
+                                      Confirm Password
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="••••••••" type="password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                                />
+
 
                         <Button type="submit">
                             Sign up
