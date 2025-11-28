@@ -213,7 +213,7 @@ const SignUpPage = () => {
                                         Password
                                     </FormLabel>
                                     <FormControl>
-                                        <PasswordInput placeholder="••••••••" type="password" {...field} />
+                                        <PasswordInput placeholder="••••••••" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -229,7 +229,7 @@ const SignUpPage = () => {
                                       Confirm Password
                                     </FormLabel>
                                     <FormControl>
-                                        <Input placeholder="••••••••" type="password" {...field} />
+                                        <PasswordInput placeholder="••••••••" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
