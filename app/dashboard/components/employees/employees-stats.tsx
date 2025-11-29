@@ -32,7 +32,7 @@ const EmployeesStats = () => {
                 </div>
                 <div>
                     <Button size="xs" asChild>
-                        <Link href="/dashboard/employees">VIEW ALL</Link>
+                        <Link href="/dashboard/employees">view all</Link>
                     </Button>
                 </div>
             </CardContent>
