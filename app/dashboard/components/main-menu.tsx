@@ -30,7 +30,7 @@ const MainMenu = () => {
         </ul>
         <footer className="flex gap-2 items-center">
             <Avatar>
-              <AvatarFallback className="bg-green-400 dark:bg-green-800">GJ</AvatarFallback>
+              <AvatarFallback className="bg-green-400 dark:bg-green-800">GK</AvatarFallback>
             </Avatar>
             <Link className="hover:underline" href="/">Logout</Link>
             <LightDarkToggle className="ml-auto" />
