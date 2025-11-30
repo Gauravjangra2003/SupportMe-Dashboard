@@ -31,7 +31,7 @@ const EmployeesStats = () => {
                     <span className="text-5xl font-bold">{totalemployees}</span>
                 </div>
                 <div>
-                    <Button size="xs" asChild>
+                    <Button size="sm" asChild>
                         <Link href="/dashboard/employees">view all</Link>
                     </Button>
                 </div>

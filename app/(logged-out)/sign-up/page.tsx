@@ -55,10 +55,11 @@ const passwordSchema = z.object({
 })
 
 const acceptTermsSchema = z.object({
-        acceptTerms : z.boolean({
-            required_error: "You must accept the terms and conditions",
-        }).refine((checked) => checked , "You must accept the terms and conditions"),
-})
+  acceptTerms: z.boolean().refine((val) => val === true, {
+    message: "You must accept the terms and conditions",
+  }),
+});
+
 
 const baseSchema = z.object({ 
     email : z.string().email(),
@@ -87,6 +88,10 @@ const SignUpPage = () => {
             password: '',
             passwordConfirm: '',
             companyName: '',
+            numberOfEmployees: undefined,
+            accountType: undefined,
+            acceptTerms: false,
+            dob: undefined,
         }
     });
 

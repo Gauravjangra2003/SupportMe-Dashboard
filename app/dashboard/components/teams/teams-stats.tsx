@@ -75,7 +75,7 @@ const TeamsStats = () => {
                     <span className="text-5xl font-bold">8</span>
                 </div>
                 <div>
-                    <Button size="xs" asChild>
+                    <Button size="sm" asChild>
                         <Link href="/dashboard/teams">view all</Link>
                     </Button>
                 </div>
