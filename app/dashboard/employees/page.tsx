@@ -6,7 +6,7 @@ const EmployeesPage =async () => {
 
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  const employees: Employee = [
+  const employees: Employee[] = [
   {
     id: 1,
     firstName: "Colin",
