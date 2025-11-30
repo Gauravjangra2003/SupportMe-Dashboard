@@ -20,7 +20,9 @@ import { useRouter } from "next/navigation"
 const accountTypeSchema = z.object({
     accountType : z.enum(["personal", "company"]),
     companyName : z.string().optional(),
-    numberOfEmployees : z.coerce.number().optional(),
+    numberOfEmployees : z
+  .union([z.number().min(1), z.literal(undefined)])
+.optional(),
 }).superRefine((data , ctx) =>  {
      if(data.accountType === "company" && !data.companyName) {
         ctx.addIssue({
