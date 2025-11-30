@@ -1,12 +1,12 @@
-
-
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DataTable } from "@/components/ui/data-table";
+import { columns, type Employee } from "./columns";
 
 const EmployeesPage =async () => {
 
-   await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  const employees = [
+  const employees: Employee = [
   {
     id: 1,
     firstName: "Colin",
@@ -73,12 +73,19 @@ const EmployeesPage =async () => {
     teamName: "delta",
     isTeamLeader: false,
   },
-];
+  ];
 
   return (
-    <div>
-        <h2>Employees</h2>
-    </div>
+        <Card>
+        <CardHeader>
+            <CardTitle>
+                Employees
+            </CardTitle>
+        </CardHeader>
+        <CardContent>
+            <DataTable columns={columns} data={employees} />
+        </CardContent>
+    </Card>
   )
 }
 
