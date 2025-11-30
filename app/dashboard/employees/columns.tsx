@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
 
 export type Employee = {
-    id: string,
+    id: number,
     firstName: string,
     lastName: string,
     teamName: string,
