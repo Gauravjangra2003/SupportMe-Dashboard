@@ -1,10 +1,7 @@
+import AccountForm from "./account-form"
 
 const AccountPage = () => {
-  return (
-    <div>
-        <h2>Account</h2>
-    </div>
-  )
+  return <AccountForm />
 }
 
 export default AccountPage

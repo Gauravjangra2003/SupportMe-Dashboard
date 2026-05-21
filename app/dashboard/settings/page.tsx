@@ -1,10 +1,7 @@
+import SettingsForm from "./settings-form"
 
 const SettingsPage = () => {
-  return (
-    <div>
-        <h2>Settings</h2>
-    </div>
-  )
+  return <SettingsForm />
 }
 
 export default SettingsPage

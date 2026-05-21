@@ -5,7 +5,13 @@ import { AlertTriangleIcon, BadgeCheckIcon, LaptopIcon, PartyPopperIcon, UserChe
 import Image from "next/image"
 import Link from "next/link"
 import cm from "@/public/images/cm.jpg"
-import WorkLocationTrends from "./work-location-trends"
+import dynamic from "next/dynamic"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const WorkLocationTrends = dynamic(() => import("./work-location-trends"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[350px] w-full" />,
+})
 
 
 const EmployeesStats = () => {

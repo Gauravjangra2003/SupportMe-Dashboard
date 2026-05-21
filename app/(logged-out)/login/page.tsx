@@ -8,6 +8,7 @@ import { PasswordInput } from "@/components/ui/password-input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PersonStandingIcon } from "lucide-react"
 import Link from "next/link"
+import { loginWithEmail } from "@/lib/user-session"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -30,14 +31,14 @@ const LoginPage = () => {
     });
 
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("login validation passed!" , data)
-        router.push('/dashboard');
+        loginWithEmail(data.email)
+        router.push("/dashboard")
     }
 
   return (
     <>
     <PersonStandingIcon size={50} />
-        <Card className="w-[350] mx-w-sm">
+        <Card className="w-[350px]">
             <CardHeader>
                 <CardTitle>
                     Login
@@ -85,7 +86,7 @@ const LoginPage = () => {
                 </Form>
             </CardContent>
             <CardFooter className="justify-between">
-                <small>Don't have an account?</small>
+                <small>Don&apos;t have an account?</small>
                 <Button asChild variant="outline" size="sm">
                     <Link href="/sign-up">Sign up</Link>
                 </Button>

@@ -6,7 +6,8 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["100","200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 
@@ -22,7 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-       <body className={cn(`${poppins.className} antialiased`)}>
+       <body
+        className={cn(`${poppins.className} antialiased`)}
+        suppressHydrationWarning
+      >
        <ThemeProvider  
             attribute="class"
             defaultTheme="system"

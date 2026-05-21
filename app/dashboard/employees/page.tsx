@@ -2,10 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table";
 import { columns, type Employee } from "./columns";
 
-const EmployeesPage =async () => {
-
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
+const EmployeesPage = async () => {
   const employees: Employee[] = [
   {
     id: 1,

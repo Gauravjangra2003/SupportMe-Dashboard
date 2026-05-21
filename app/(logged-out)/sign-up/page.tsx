@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar"
 import { PasswordInput } from "@/components/ui/password-input"
 import { Checkbox } from "@/components/ui/checkbox"
+import { registerUser } from "@/lib/user-session"
 import { useRouter } from "next/navigation"
 
 const accountTypeSchema = z.object({
@@ -63,7 +64,9 @@ const acceptTermsSchema = z.object({
 });
 
 
-const baseSchema = z.object({ 
+const baseSchema = z.object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
     email : z.string().email(),
     dob : z.date().refine((date) => {
         const today = new Date();
@@ -86,6 +89,8 @@ const SignUpPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             passwordConfirm: '',
@@ -98,8 +103,12 @@ const SignUpPage = () => {
     });
 
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("login validation passed!" , data);
-        router.push('/dashboard');
+        registerUser({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+        })
+        router.push("/dashboard")
     }
 
     const accountType = form.watch("accountType");
@@ -107,7 +116,7 @@ const SignUpPage = () => {
   return (
     <>
     <PersonStandingIcon size={50} />
-        <Card className="w-[350] mx-w-sm">
+        <Card className="w-[350px]">
             <CardHeader>
                 <CardTitle>
                     Sign up
@@ -119,6 +128,30 @@ const SignUpPage = () => {
             <CardContent>
                 <Form {...form}>
                     <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(handleSubmit)}>
+                        <div className="grid grid-cols-2 gap-4">
+                        <FormField control={form.control} name="firstName"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>First name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="John" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField control={form.control} name="lastName"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Last name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Doe" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        </div>
                         <FormField control={form.control} name="email"
                             render={({field}) => (
                                 <FormItem>

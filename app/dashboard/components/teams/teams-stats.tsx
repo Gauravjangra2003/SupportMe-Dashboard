@@ -9,8 +9,24 @@ import tf from "@/public/images/tf.jpg"
 import rl from "@/public/images/rl.jpg"
 import { TooltipProvider , Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { Avatar , AvatarFallback } from "@/components/ui/avatar"
-import TeamDistributionChart from "./team-distribution-chart"
-import SupportTicketsResolved from "./support-tickets-resolved"
+import dynamic from "next/dynamic"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const TeamDistributionChart = dynamic(
+  () => import("./team-distribution-chart"),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[150px] w-full" />,
+  }
+)
+
+const SupportTicketsResolved = dynamic(
+  () => import("./support-tickets-resolved"),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[350px] w-full" />,
+  }
+)
 
 
 const teamLeaders = [
@@ -90,28 +106,28 @@ const TeamsStats = () => {
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-3">
-                    {
-                        teamLeaders.map(items => (
-                            <TooltipProvider key={`${items.firstName}${items.lastName}`}>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                                <Avatar>
-                                                    {
-                                                        !!items.avatar && 
-                                                        <Image src={items.avatar} alt={`${items.firstName} ${items.lastName} avatar`}/>
-                                                    }
-                                                    <AvatarFallback>
-                                                        {items.firstName[0]} {items.lastName[0]}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            {items.firstName} {items.lastName}
-                                        </TooltipContent>
-                                    </Tooltip>
-                            </TooltipProvider>
-                        ))
-                    }
+              <TooltipProvider>
+                {teamLeaders.map((items) => (
+                  <Tooltip key={`${items.firstName}${items.lastName}`}>
+                    <TooltipTrigger asChild>
+                      <Avatar>
+                        {!!items.avatar && (
+                          <Image
+                            src={items.avatar}
+                            alt={`${items.firstName} ${items.lastName} avatar`}
+                          />
+                        )}
+                        <AvatarFallback>
+                          {items.firstName[0]} {items.lastName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {items.firstName} {items.lastName}
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </TooltipProvider>
             </CardContent>
         </Card>
         {/* Card 3 */}
